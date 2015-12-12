@@ -24,14 +24,14 @@ function Write-HostAnsi {
     }
 
     if($foregroundColor -ne $null -or $backgroundColor -ne $null){
-        $newObject = Colorize-Text -text $object -ansiSgrCode $ansiSgrCodes
+        $newObject = ConvertTo-AnsiColoredText -text $object -ansiSgrCode $ansiSgrCodes
         Write-Host $newObject @writeHostSplatArgs @args
     } else {
         Write-Host $object @args
     }
 }
 
-function Colorize-Text {
+function ConvertTo-AnsiColoredText {
     <#
     .SYNOPSIS
         Adds ANSI SGR (Select Graphic Rendition) codes to a string.
@@ -53,10 +53,10 @@ function Colorize-Text {
         Designed to play nicely with https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin
   
     .EXAMPLE
-        Colorize-Text -text "Hello World." -ansiSgrCode ([AnsiColor]::ForegroundRed -as [int])
+        ConvertTo-AnsiColoredText -text "Hello World." -ansiSgrCode ([AnsiColor]::ForegroundRed -as [int])
     
     .EXAMPLE
-        Colorize-Text -text "Hello World." -ansiSgrCode @( ([AnsiColor]::ForegroundRed -as [int]), ([AnsiColor]::BackgroundYellow -as [int]) )
+        CConvertTo-AnsiColoredText -text "Hello World." -ansiSgrCode @( ([AnsiColor]::ForegroundRed -as [int]), ([AnsiColor]::BackgroundYellow -as [int]) )
 
     #>
     param(
