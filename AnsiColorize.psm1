@@ -34,10 +34,11 @@ function Write-HostAnsi {
 function Colorize-Text {
     <#
     .SYNOPSIS
-        Adds ANSI SGR codes to a string.
+        Adds ANSI SGR (Select Graphic Rendition) codes to a string.
     
     .DESCRIPTION
         Adds ANSI SGR codes to a string.
+        \x[<SGR>m
         
     .PARAMETER text
         Text to be transformed.
@@ -75,8 +76,13 @@ function Colorize-Text {
     return [char]27 + "$ansiCodeString$text" + [char]27 + "[0m"
 }
 
+#ANSI SGR code enum - only contains those supported by Jenkins AnsiColor Plugin.
 Add-Type -TypeDefinition @"
     public enum AnsiColor {
+        Bold = 1,
+        UnderlineSingle = 4,
+        Conceal = 8,
+        UnderlineDouble = 21,
         ForegroundBlack = 30,
         ForegroundRed = 31,
         ForegroundGreen = 32,
@@ -102,21 +108,21 @@ $foregroundColorAnsiCodes = @{
     "Black" = [AnsiColor]::ForegroundBlack -as [int];
     "White" = [AnsiColor]::ForegroundWhite -as [int];
     "Blue" = [AnsiColor]::ForegroundBlue -as [int];
-    "DarkBlue" = [AnsiColor]::ForegroundBlue -as [int];
+    "DarkBlue" = @(([AnsiColor]::ForegroundBlue -as [int]), ([AnsiColor]::Bold -as [int]));
     "Green" = [AnsiColor]::ForegroundGreen -as [int];
-    "DarkGreen" = [AnsiColor]::ForegroundGreen -as [int];
+    "DarkGreen" = @(([AnsiColor]::ForegroundGreen -as [int]), ([AnsiColor]::Bold -as [int]));
     "Cyan" = [AnsiColor]::ForegroundCyan -as [int];
-    "DarkCyan" = [AnsiColor]::ForegroundCyan -as [int];
+    "DarkCyan" = @(([AnsiColor]::ForegroundCyan -as [int]), ([AnsiColor]::Bold -as [int]));
     "Red" = [AnsiColor]::ForegroundRed -as [int];
-    "DarkRed" = [AnsiColor]::ForegroundRed -as [int];
+    "DarkRed" = @(([AnsiColor]::ForegroundRed -as [int]), ([AnsiColor]::Bold -as [int]));
     "Magenta" = [AnsiColor]::ForegroundMagenta -as [int];
-    "DarkMagenta" = [AnsiColor]::ForegroundMagenta -as [int];
+    "DarkMagenta" = @(([AnsiColor]::ForegroundMagenta -as [int]), ([AnsiColor]::Bold -as [int]));
     "Yellow" = [AnsiColor]::ForegroundYellow -as [int];
-    "DarkYellow" = [AnsiColor]::ForegroundYellow -as [int];
+    "DarkYellow" = @(([AnsiColor]::ForegroundYellow -as [int]), ([AnsiColor]::Bold -as [int]));
 
     #No equivalent
     "Gray" = [AnsiColor]::ForegroundBlack -as [int];
-    "DarkGray" = [AnsiColor]::ForegroundBlack -as [int];
+    "DarkGray" = @(([AnsiColor]::ForegroundBlack -as [int]), ([AnsiColor]::Bold -as [int]));
 }
 
 $backgroundColorAnsiCodes = @{
