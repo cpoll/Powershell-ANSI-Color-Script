@@ -6,4 +6,4 @@ Designed for use with the Jenkins AnsiColor Plugin at https://wiki.jenkins-ci.or
 	1. Copy AnsiColorize.psm1 and Write-JenkinsConsole.psm1 to the same folder.
 	2. Import-Module Write-JenkinsConsole.psm1
 	3. Use Write-JenkinsConsole as a replacement to Write-Host
-		* __Note that piped input is not yet supported__
+		* **Note that piped input is not yet supported**
