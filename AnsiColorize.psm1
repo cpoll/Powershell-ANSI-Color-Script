@@ -67,8 +67,9 @@ function ConvertTo-AnsiColoredText {
     $ansiCodeString;
     if($ansiSgrCode -is [array]){
         foreach($code in $ansiSgrCode){
-            $ansiCodeString += "[${code}m"
+            $ansiCodeString += "${code};"
         }
+        $ansiCodeString = "[${ansiCodeString}m";
     } else {
         $ansiCodeString = "[${ansiSgrCode}m"
     }
