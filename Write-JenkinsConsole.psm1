@@ -27,5 +27,5 @@ function Get-InsideJenkinsEnvironment {
 
     #>
 
-    return $Env:Workspace -ne $null
+    return $Env:JENKINS_URL -ne $null
 }
